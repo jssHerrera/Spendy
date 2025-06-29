@@ -1,9 +1,11 @@
-import { Login } from "./pages/Login";
+import { RouterProvider } from "react-router-dom";
+import { router, SVGSprite } from "./index";
 
 function App() {
   return (
     <>
-      <Login />
+      <SVGSprite />
+      <RouterProvider router={router} />
     </>
   );
 }
