@@ -1,8 +1,10 @@
 import { BtnSave } from "../../index";
 import { v } from "../../index";
 import { Title } from "../../index";
+import { useAuthStore } from "../../store/AuthStore";
 
 export const LoginTemplate = () => {
+  const signWithGoogle = useAuthStore((state) => state.signWithGoogle);
   return (
     <>
       <span className="text-[#727272] text-start"> version 1.0</span>
@@ -18,6 +20,7 @@ export const LoginTemplate = () => {
           title="Iniciar Sesión con Google"
           icon="google"
           bgColor="bg-secundario"
+          onClick={signWithGoogle}
         />
       </div>
     </>
