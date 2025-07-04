@@ -1,7 +1,6 @@
-import { BtnSave } from "../../index";
-import { v } from "../../index";
-import { Title } from "../../index";
-import { useAuthStore } from "../../store/AuthStore";
+import { BtnSave, Title } from "../../components";
+import { v } from "../../styles";
+import { useAuthStore } from "../../store";
 
 export const LoginTemplate = () => {
   const signWithGoogle = useAuthStore((state) => state.signWithGoogle);

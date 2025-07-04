@@ -1,4 +1,4 @@
-import { Icon } from "../../index";
+import { Icon } from "../../components";
 
 interface BtnSaveProps {
   title: string;

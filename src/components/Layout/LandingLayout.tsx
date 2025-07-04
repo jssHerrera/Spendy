@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { useAuthStore } from "../../store/AuthStore";
+import { useAuthStore } from "../../store";
 
 export const LandingLayout = () => {
   const { isInitialized, user } = useAuthStore();

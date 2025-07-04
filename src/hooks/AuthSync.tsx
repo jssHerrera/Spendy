@@ -1,6 +1,6 @@
 // AuthSync.tsx;
 import { useEffect } from "react";
-import { useAuthStore } from "../store/AuthStore";
+import { useAuthStore } from "../store";
 
 export const AuthSync = () => {
   useEffect(() => {

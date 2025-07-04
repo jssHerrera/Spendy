@@ -1,6 +1,6 @@
 // components/GuestRoute.tsx
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthStore } from "../index";
+import { useAuthStore } from "../store";
 
 type GuestRouteProps = {
   redirectTo: string;
