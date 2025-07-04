@@ -1,5 +1,7 @@
 import { Navigate } from "react-router-dom";
-import { Home, Login, LandingLayout, AuthLayout } from "../index";
+import { LandingLayout, AuthLayout } from "../components";
+import { Home, Login } from "../pages";
+import { GuestRoute } from "../hooks";
 
 export const publicRoutes = [
   {
@@ -13,7 +15,11 @@ export const publicRoutes = [
   },
   {
     path: "/auth",
-    element: <AuthLayout />,
+    element: (
+      <GuestRoute redirectTo="/admin/dashboard">
+        <AuthLayout />
+      </GuestRoute>
+    ),
     children: [
       {
         index: true,
