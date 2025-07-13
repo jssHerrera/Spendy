@@ -1,22 +1,24 @@
 import { Navigate } from "react-router-dom";
 import { LandingLayout, AuthLayout } from "../components";
-import { Home, Login } from "../pages";
+import { Login, MainPage } from "./lazyPages";
 import { GuestRoute } from "../hooks";
 
 export const publicRoutes = [
   {
+    path: "/",
     element: <LandingLayout />,
     children: [
       {
-        path: "/",
-        element: <Home />,
+        path: "home",
+        element: <MainPage />,
+        metadata: { title: "Home" },
       },
     ],
   },
   {
     path: "/auth",
     element: (
-      <GuestRoute redirectTo="/admin/dashboard">
+      <GuestRoute redirectTo="/admin/home">
         <AuthLayout />
       </GuestRoute>
     ),
@@ -32,3 +34,33 @@ export const publicRoutes = [
     ],
   },
 ];
+
+// export const publicRoutes = [
+//   {
+//     element: <LandingLayout />,
+//     children: [
+//       {
+//         path: "/",
+//         element: <Home />,
+//       },
+//     ],
+//   },
+//   {
+//     path: "/auth",
+//     element: (
+//       <GuestRoute redirectTo="/admin/dashboard">
+//         <AuthLayout />
+//       </GuestRoute>
+//     ),
+//     children: [
+//       {
+//         index: true,
+//         element: <Navigate to="login" replace />,
+//       },
+//       {
+//         path: "login",
+//         element: <Login />,
+//       },
+//     ],
+//   },
+// ];

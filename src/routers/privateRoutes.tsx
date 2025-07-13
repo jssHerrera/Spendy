@@ -1,7 +1,14 @@
 import { Navigate } from "react-router-dom";
+
 import { DashboardLayout } from "../components";
-import { Dashboard, ErrorFallback } from "../pages";
 import { ProtectedRoute } from "../hooks";
+import {
+  Home,
+  Categorias,
+  Informes,
+  Movimientos,
+  Dashboard,
+} from "./lazyPages";
 
 export const privateRoutes = [
   {
@@ -11,14 +18,29 @@ export const privateRoutes = [
         <DashboardLayout />
       </ProtectedRoute>
     ),
-    errorElement: <ErrorFallback />,
     children: [
       {
         index: true,
-        element: <Navigate to="dashboard" replace />,
+        element: <Navigate to="home" replace />,
       },
       {
-        path: "dashboard",
+        path: "home", // /admin/home
+        element: <Home />,
+      },
+      {
+        path: "categorias", // /admin/categorias
+        element: <Categorias />,
+      },
+      {
+        path: "movimientos", // /admin/movimientos
+        element: <Movimientos />,
+      },
+      {
+        path: "informes", // /admin/informes
+        element: <Informes />,
+      },
+      {
+        path: "dashboard", // /admin/dashboard
         element: <Dashboard />,
       },
     ],
