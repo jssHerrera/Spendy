@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { supabase } from "../supabase";
 import type { User, Session, UserMetadata } from "@supabase/supabase-js";
 import { getErrorMessage } from "../utils/getErrorMessage";
+import { checkAndCreateUser } from "../services/auth.helpers";
 
 let authSubscription: { unsubscribe: () => void } | null = null;
 
@@ -11,6 +12,7 @@ interface AuthState {
   error: string | null; // Posibles errores
   user: User | null; // Información del usuario autenticado
   userMetadata: UserMetadata | null; // Información del usuario autenticado
+  userProfile: User | null; // Información del usuario autenticado
   isInitialized: boolean; // Indica si ya se inicializó la sesión
 
   // Métodos disponibles en el store
@@ -39,6 +41,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
     error: null,
     user: null,
     userMetadata: null,
+    userProfile: null,
     isInitialized: false,
 
     // Iniciar sesión con Google (OAuth)
@@ -49,7 +52,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
         const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
-            redirectTo: "http://localhost:5173/admin/dashboard",
+            redirectTo: "http://localhost:5173/admin/home",
           },
         });
 
@@ -102,12 +105,19 @@ export const useAuthStore = create<AuthState>((set, get) => {
         // Suscribirse a futuros cambios de autenticación
         const {
           data: { subscription },
-        } = supabase.auth.onAuthStateChange((event, session) => {
+        } = supabase.auth.onAuthStateChange(async (event, session) => {
           // switch para manejar diferentes eventos de autenticación
           switch (event) {
-            case "INITIAL_SESSION":
+            case "INITIAL_SESSION": {
               console.log("🔁 Sesión inicial detectada");
+              const userProfile = await checkAndCreateUser(session);
+
+              updateAuthState(session, {
+                isInitialized: true,
+                ...(userProfile && { userProfile }),
+              });
               break;
+            }
             case "SIGNED_IN":
               console.log("🟢 Usuario ha iniciado sesión");
               break;
@@ -126,9 +136,6 @@ export const useAuthStore = create<AuthState>((set, get) => {
             default:
               console.log("⚠️ Evento de auth desconocido:", event);
           }
-          // console.log(session?.user?.user_metadata);
-          // Actualiza el estado de autenticación cuando cambie
-          updateAuthState(session);
         });
 
         // Guardar suscripción global para poder limpiar luego
@@ -149,6 +156,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
         isAuth: false,
         user: null,
         userMetadata: null,
+        userProfile: null,
         error: null,
       });
     },
