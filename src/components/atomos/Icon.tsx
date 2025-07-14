@@ -15,7 +15,7 @@ export const Icon: React.FC<IconProps> = ({
     <svg
       width={size}
       height={size}
-      className={`${className} text-text`}
+      className={`${className || "text-text"}`}
       style={color ? { fill: color } : undefined}
     >
       <use href={`#${name}`} />
